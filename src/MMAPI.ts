@@ -13,8 +13,7 @@ class MMAPI extends API {
         id,
         responseType: "JSON",
       });
-      const data = response.data.data;
-      return data;
+      return response;
     } catch (error) {
       throw error;
     }
@@ -27,8 +26,7 @@ class MMAPI extends API {
         responseType: "JSON",
       });
 
-      const data = response.data.data;
-      return data;
+      return response;
     } catch (error) {
       throw error;
     }
@@ -41,8 +39,7 @@ class MMAPI extends API {
         responseType: "JSON",
       });
 
-      const data = response.data.data;
-      return data;
+      return response;
     } catch (error) {
       throw error;
     }
@@ -64,11 +61,7 @@ class MMAPI extends API {
         responseType: "JSON",
       });
 
-      const actionResult = response.data.actionResult;
-
-      return {
-        status: actionResult.status === "EXECUTED" ? "success" : "error",
-      };
+      return response;
     } catch (error) {
       throw error;
     }

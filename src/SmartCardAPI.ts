@@ -1,7 +1,7 @@
 import MMAPI from "./MMAPI";
 
-class SmartcarAPI {
-  private readonly mmAPI: MMAPI;
+class SmartCardAPI {
+  public mmAPI: MMAPI;
 
   constructor() {
     this.mmAPI = new MMAPI();
@@ -9,7 +9,8 @@ class SmartcarAPI {
 
   async getVehicleInfo(id: string) {
     try {
-      const data = await this.mmAPI.getVehicleInfo(id);
+      const response = await this.mmAPI.getVehicleInfo(id);
+      const data = response.data.data;
 
       const result = {
         vin: data.vin.value,
@@ -26,7 +27,8 @@ class SmartcarAPI {
 
   async getSecurityStatus(id: string) {
     try {
-      const data = await this.mmAPI.getSecurityStatus(id);
+      const response = await this.mmAPI.getSecurityStatus(id);
+      const data = response.data.data;
       const result = data.doors.values.map((door: any) => ({
         location: door.location.value,
         locked: door.locked.value === "True",
@@ -40,7 +42,8 @@ class SmartcarAPI {
 
   async getBatteryRange(id: string) {
     try {
-      const data = await this.mmAPI.getEnergyService(id);
+      const response = await this.mmAPI.getEnergyService(id);
+      const data = response.data.data;
       const batteryLevel = parseFloat(data.batteryLevel.value);
 
       return {
@@ -53,7 +56,8 @@ class SmartcarAPI {
 
   async getFuelRange(id: string) {
     try {
-      const data = await this.mmAPI.getEnergyService(id);
+      const response = await this.mmAPI.getEnergyService(id);
+      const data = response.data.data;
       const tankLevel = parseFloat(data.tankLevel.value);
 
       return {
@@ -65,12 +69,22 @@ class SmartcarAPI {
   }
 
   async startEngine(id: string) {
-    return this.mmAPI.startEngine(id);
+    const response =  await this.mmAPI.startEngine(id);
+    const actionResult = response.data.actionResult;
+
+    return {
+      status: actionResult.status === "EXECUTED" ? "success" : "error",
+    };
   }
 
   async stopEngine(id: string) {
-    return this.mmAPI.stopEngine(id);
+    const response = await this.mmAPI.stopEngine(id);
+    const actionResult = response.data.actionResult;
+
+    return {
+      status: actionResult.status === "EXECUTED" ? "success" : "error",
+    };
   }
 }
 
-export default SmartcarAPI;
+export default SmartCardAPI;
