@@ -69,21 +69,29 @@ class SmartCardAPI {
   }
 
   async startEngine(id: string) {
-    const response =  await this.mmAPI.startEngine(id);
-    const actionResult = response.data.actionResult;
+    try {
+      const response = await this.mmAPI.startEngine(id);
+      const actionResult = response.data.actionResult;
 
-    return {
-      status: actionResult.status === "EXECUTED" ? "success" : "error",
-    };
+      return {
+        status: actionResult.status === "EXECUTED" ? "success" : "error",
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   async stopEngine(id: string) {
-    const response = await this.mmAPI.stopEngine(id);
-    const actionResult = response.data.actionResult;
+    try {
+      const response = await this.mmAPI.stopEngine(id);
+      const actionResult = response.data.actionResult;
 
-    return {
-      status: actionResult.status === "EXECUTED" ? "success" : "error",
-    };
+      return {
+        status: actionResult.status === "EXECUTED" ? "success" : "error",
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
